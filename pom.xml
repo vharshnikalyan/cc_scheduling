@@ -1,72 +1,80 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-<modelVersion>4.0.0</modelVersion>
-<groupId>com.cloudscheduling</groupId>
-<artifactId>cloud-scheduling</artifactId>
-<version>1.0.0</version>
-<packaging>jar</packaging>
-<properties>
-<maven.compiler.source>11</maven.compiler.source>
-<maven.compiler.target>11</maven.compiler.target>
-<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-<!--  Default main class for Maven exec plugin  -->
-<main.class>com.cloudscheduling.main.CloudSchedulingApplication</main.class>
-</properties>
-<dependencies>
-<!--  CloudSim Plus - CORRECT VERSION  -->
-<dependency>
-<groupId>org.cloudsimplus</groupId>
-<artifactId>cloudsim-plus</artifactId>
-<version>7.3.1</version>
-</dependency>
-<!--  PostgreSQL JDBC Driver  -->
-<dependency>
-<groupId>org.postgresql</groupId>
-<artifactId>postgresql</artifactId>
-<version>42.6.0</version>
-</dependency>
-</dependencies>
-<build>
-<plugins>
-<!--  Compiler Plugin (Java 11)  -->
-<plugin>
-<groupId>org.apache.maven.plugins</groupId>
-<artifactId>maven-compiler-plugin</artifactId>
-<version>3.11.0</version>
-<configuration>
-<source>${maven.compiler.source}</source>
-<target>${maven.compiler.target}</target>
-</configuration>
-</plugin>
-<!--  Exec Plugin (lets you run Java main classes easily)  -->
-<plugin>
-<groupId>org.codehaus.mojo</groupId>
-<artifactId>exec-maven-plugin</artifactId>
-<version>3.1.0</version>
-<configuration>
-<mainClass>${main.class}</mainClass>
-</configuration>
-</plugin>
-<!--  Shade Plugin (builds a runnable fat JAR)  -->
-<plugin>
-<groupId>org.apache.maven.plugins</groupId>
-<artifactId>maven-shade-plugin</artifactId>
-<version>3.4.1</version>
-<executions>
-<execution>
-<phase>package</phase>
-<goals>
-<goal>shade</goal>
-</goals>
-<configuration>
-<transformers>
-<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-<mainClass>${main.class}</mainClass>
-</transformer>
-</transformers>
-</configuration>
-</execution>
-</executions>
-</plugin>
-</plugins>
-</build>
-</project
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.cloudscheduling</groupId>
+  <artifactId>cloud-scheduling</artifactId>
+  <version>1.0.0</version>
+  <name>cloud-scheduling</name>
+
+  <properties>
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <!-- CloudSim Plus -->
+    <dependency>
+      <groupId>org.cloudsimplus</groupId>
+      <artifactId>cloudsim-plus</artifactId>
+      <version>7.3.1</version>
+    </dependency>
+
+    <!-- PostgreSQL JDBC (optional: only if you use DB) -->
+    <dependency>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.7.4</version>
+      <scope>runtime</scope>
+    </dependency>
+
+    <!-- Simple logger to see logs in Actions -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <version>2.0.13</version>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!-- Build a fat jar (optional but handy) -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.7.1</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <!-- Change this to your main class -->
+              <mainClass>com.cloudscheduling.cloudsim.OptimizedEGSJF</mainClass>
+            </manifest>
+          </archive>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals><goal>single</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- (Optional) run the app via mvn exec:java -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.5.0</version>
+        <configuration>
+          <mainClass>com.cloudscheduling.cloudsim.OptimizedEGSJF</mainClass>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
+
