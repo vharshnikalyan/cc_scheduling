@@ -10,7 +10,6 @@ public class DatabaseConfig {
     // ✅ Update these to match your pgAdmin settings
     private static final String URL = "jdbc:postgresql://localhost:5432/cloud_scheduling";
     private static final String USERNAME = "postgres";
-    private static final String PASSWORD = "1234"; // replace if you have a different one
 
     static {
         try {
@@ -25,7 +24,6 @@ public class DatabaseConfig {
         try {
             Properties props = new Properties();
             props.setProperty("user", USERNAME);
-            props.setProperty("password", PASSWORD);
             props.setProperty("ssl", "false");
 
             Connection connection = DriverManager.getConnection(URL, props);
@@ -63,3 +61,4 @@ public class DatabaseConfig {
         }
     }
 }
+
